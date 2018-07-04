@@ -1,20 +1,25 @@
 package bignumcalculator
 
+import "math/big"
+
 type BigNumberCalculator struct{
-    symbol map[string]float64
+    symbol map[string]big.Float
 }
 
 func New() *BigNumberCalculator {
     calc := new(BigNumberCalculator)
-    calc.symbol = make(map[string]float64)
+    calc.symbol = make(map[string]big.Float)
     return calc
 }
 
-func (calc *BigNumberCalculator) Create(name string, val float64) bool {
+func (calc *BigNumberCalculator) Create(name string, val string) bool {
     _, exists := calc.symbol[name]
     if exists {
         return false
     }
-    calc.symbol[name] = val
-    return true
+    value, suc := new(big.Float).SetString(val)
+    if suc {
+        calc.symbol[name] = *value
+    }    
+    return suc
 }
