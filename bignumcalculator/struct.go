@@ -12,6 +12,14 @@ func New() *BigNumberCalculator {
     return calc
 }
 
+func (calc *BigNumberCalculator) Get(name string) *big.Float {
+    val, exists := calc.symbol[name]
+    if !exists {
+        return nil
+    }
+    return &val
+}
+
 func (calc *BigNumberCalculator) Create(name string, val string) bool {
     _, exists := calc.symbol[name]
     if exists {
