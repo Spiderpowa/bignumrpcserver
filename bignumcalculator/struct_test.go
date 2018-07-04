@@ -90,3 +90,39 @@ func TestSet(t *testing.T) {
     }
 }
 
+func TestDelete(t *testing.T) {
+    calc := New()
+    calc.Create("A", "1.0")
+    calc.Create("B", "1.0")
+    cases := []struct {
+        in string
+        del bool
+        out bool
+    }{
+        {"A", true, true},
+        {"B", false, true},
+        {"C", true, false},
+    }
+    for _, c := range cases {
+        if !c.del {
+            continue
+        }
+        out := calc.Delete(c.in)
+        if out != c.out {
+            t.Errorf("Delete (%q) == %t, expect %t", c.in, out, c.out)
+        }
+        if out {
+            if calc.Get(c.in) != nil {
+                t.Errorf("Delete (%q) but still can be found", c.in)
+            }
+        }
+    }
+    for _, c := range cases {
+        if c.del {
+            continue
+        }
+        if calc.Get(c.in) == nil {
+            t.Errorf("(%q) is not deleted but cannot be found", c.in)
+        }
+    }
+}

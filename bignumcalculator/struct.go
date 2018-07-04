@@ -43,3 +43,12 @@ func (calc *BigNumberCalculator) Create(name, val string) bool {
     }    
     return suc
 }
+
+func (calc *BigNumberCalculator) Delete(name string) bool {
+    _, exists := calc.symbol[name]
+    if !exists {
+        return false
+    }
+    delete(calc.symbol, name)
+    return true
+}
