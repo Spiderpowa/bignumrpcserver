@@ -33,7 +33,7 @@ func makeTable(t *testing.T) *BigNumberCalculator {
 func TestAdd(t *testing.T) {
     calc := makeTable(t)
     cases := []struct {
-        x, y, sum string
+        x, y, ans string
     }{
         {"1.0", "1.0", "2.0"},
         {"1.0", "-1.0", "0"},
@@ -45,9 +45,9 @@ func TestAdd(t *testing.T) {
             t.Errorf("Add Error %q %q", c.x, c.y)
             continue
         }
-        sum, _ := new(big.Float).SetString(c.sum)
-        if sum.Cmp(&out)!=0 {
-            t.Errorf("Add %q %q == %q, expect %q", c.x, c.y, out.String(), sum.String())
+        ans, _ := new(big.Float).SetString(c.ans)
+        if out.String() != ans.String() {
+            t.Errorf("Add %q %q == %q, expect %q", c.x, c.y, out.String(), ans.String())
         }
     }
 }
@@ -71,7 +71,7 @@ func TestSub(t *testing.T) {
             continue
         }
         ans, _ := new(big.Float).SetString(c.ans)
-        if ans.Cmp(&out)!=0 {
+        if out.String() != ans.String() {
             t.Errorf("Sub %q %q == %q, expect %q", c.x, c.y, out.String(), ans.String())
         }
     }
@@ -89,6 +89,7 @@ func TestMul(t *testing.T) {
         {"1000000000000000000000000000000000000", "1.0", "1000000000000000000000000000000000000"},
         {"1.0", "-999999999999999999999999999999999999", "-999999999999999999999999999999999999"},
         {"100000000000000000000000000000000", "100000000000000000000000000000000", "10000000000000000000000000000000000000000000000000000000000000000"},
+        {"1000000000000000000000000000000000000", "1000000000000000000000000000000000000", "1000000000000000000000000000000000000000000000000000000000000000000000000"},
     }
     for _, c := range cases {
         out, suc := calc.Mul(c.x, c.y)
@@ -97,7 +98,7 @@ func TestMul(t *testing.T) {
             continue
         }
         ans, _ := new(big.Float).SetString(c.ans)
-        if ans.Cmp(&out)!=0 {
+        if out.String() != ans.String() {
             t.Errorf("Mul %q %q == %q, expect %q", c.x, c.y, out.String(), ans.String())
         }
     }
@@ -111,6 +112,7 @@ func TestDiv(t *testing.T) {
         {"4", "2", "2"},
         {"1.0", "-1.0", "-1.0"},
         {"-3.0", "-1.0", "3.0"},
+        {"5.1", "3.0", "1.7"},
         {"0", "1.0", "00"},
         {"1000000000000000000000000000000000000", "1.0", "1000000000000000000000000000000000000"},
         {"1000000000000000000000000000000000000", "1000000000000000000000000000000000000", "1"},
@@ -123,7 +125,7 @@ func TestDiv(t *testing.T) {
             continue
         }
         ans, _ := new(big.Float).SetString(c.ans)
-        if ans.Cmp(&out)!=0 {
+        if out.String() != ans.String() {
             t.Errorf("Div %q %q == %q, expect %q", c.x, c.y, out.String(), ans.String())
         }
     }
