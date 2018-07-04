@@ -1,6 +1,7 @@
 package bignumcalculator
 
 import "testing"
+import "math/big"
 
 func TestCreate(t *testing.T) {
     cases := []struct {
@@ -59,6 +60,33 @@ func TestGet(t *testing.T) {
             t.Errorf("Create (%q) == %t, expect %t", c.in, out, c.out)
         }
         
+    }
+}
+
+func TestSet(t *testing.T) {
+    calc := New()
+    calc.Create("N", "1.0")
+    cases := []struct {
+        in, val string
+        out bool
+    }{
+        {"N", "3.0", true},
+        {"A", "5", false},
+        {"N", "4.0", true},
+        {"N", "WRONG", false},
+    }
+    for _, c := range cases {
+        out := calc.Set(c.in, c.val)
+        if out != c.out {
+            t.Errorf("Set (%q, %q) == %t, expect %t", c.in, c.val, out, c.out)
+        }
+        if out {
+            val := calc.Get(c.in)
+            exp, _ := new(big.Float).SetString(c.val)
+            if val.Cmp(exp) != 0 {
+                t.Errorf("Set Fail (%q, %q) == %q", c.in, c.val, val.String())
+            }
+        }
     }
 }
 
