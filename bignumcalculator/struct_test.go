@@ -43,3 +43,22 @@ func TestCreateVal(t *testing.T) {
     }
 }
 
+func TestGet(t *testing.T) {
+    calc := New()
+    calc.Create("N", "1.0")
+    cases := []struct {
+        in string
+        out bool
+    }{
+        {"N", true},
+        {"A", false},
+    }
+    for _, c := range cases {
+        out := calc.Get(c.in) != nil
+        if out != c.out {
+            t.Errorf("Create (%q) == %t, expect %t", c.in, out, c.out)
+        }
+        
+    }
+}
+
