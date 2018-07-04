@@ -20,7 +20,7 @@ func (calc *BigNumberCalculator) Get(name string) *big.Float {
     return &val
 }
 
-func (calc *BigNumberCalculator) Create(name string, val string) bool {
+func (calc *BigNumberCalculator) Create(name, val string) bool {
     _, exists := calc.symbol[name]
     if exists {
         return false
