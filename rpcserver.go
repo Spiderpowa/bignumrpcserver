@@ -1,5 +1,8 @@
 package main
 
 func main() {
-    StartRPCServer()
+    listener := NewListener("tcp", ":1234")
+    if listener != nil {
+        StartRPCServer(listener, nil)
+    }
 }
