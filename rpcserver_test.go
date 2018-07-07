@@ -16,17 +16,18 @@ type RPCClient struct {
 }
 
 func (client *RPCClient) Close(t *testing.T) {
-    go func() {
-        t.Log("Waiting for a brief time before closing current server...")
-        time.Sleep(time.Millisecond*500)
-        client.listener.Close()
+    go func () {
+        go func() {
+            t.Log("Waiting for a brief time before closing current server...")
+            time.Sleep(time.Millisecond*500)
+            client.listener.Close()
+        }()
+        client.isClosed <- true
     }()
-
-    client.isClosed <- true
 }
 
-func initClient(t *testing.T) *RPCClient {
-    listener := NewListener("tcp", ":1234")
+func initClient(t *testing.T, address string) *RPCClient {
+    listener := NewListener("tcp", address)
     if listener == nil {
         t.Error("Error Listening")
     }
@@ -66,7 +67,7 @@ func makeTable(t *testing.T, client *RPCClient)  {
 }
 
 func TestCreate(t *testing.T) {
-    client := initClient(t)
+    client := initClient(t, ":1234")
     defer client.Close(t)
     cases := []struct {
         in string
@@ -88,7 +89,7 @@ func TestCreate(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-    client := initClient(t)
+    client := initClient(t, ":1235")
     defer client.Close(t)
     makeTable(t, client)
 }
