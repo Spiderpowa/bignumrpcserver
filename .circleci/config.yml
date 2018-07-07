@@ -27,5 +27,5 @@ jobs:
           name: Test and Coverage
           command: |
             go get github.com/mattn/goveralls
-            go test -v -cover -race -coverprofile=/tmp/coverage.out ./...
-            /go/bin/goveralls -coverprofile=/tmp/coverage.out -service=circle-ci -repotoken=$COVERALLS_REPO_TOKEN -tags test
+            go test -v -cover -race -coverprofile=/tmp/coverage.out ./... -tags test
+            /go/bin/goveralls -coverprofile=/tmp/coverage.out -service=circle-ci -repotoken=$COVERALLS_REPO_TOKEN
