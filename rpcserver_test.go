@@ -98,6 +98,8 @@ func TestAdd(t *testing.T) {
     }{
         {"One", "One", "2.0"},
         {"One", "NegOne", "0"},
+        {"7", "8", "15"},
+        {"Five.One", "10", "15.1"},
         {"One", "LotsOfNine", "1000000000000000000000000000000000000"},
     }
     var reply string
