@@ -15,6 +15,13 @@ func New() *BigNumberCalculator {
 func (calc *BigNumberCalculator) Get(name string) *big.Float {
     val, exists := calc.symbol[name]
     if !exists {
+        constVal, suc := new(big.Float).SetString(name)
+        if suc {
+            val = *constVal
+            exists = true
+        }
+    }
+    if !exists {
         return nil
     }
     return &val

@@ -53,6 +53,9 @@ func TestGet(t *testing.T) {
     }{
         {"N", true},
         {"A", false},
+        {"33.10", true},
+        {"42", true},
+        {"1e5", true},
     }
     for _, c := range cases {
         out := calc.Get(c.in) != nil
