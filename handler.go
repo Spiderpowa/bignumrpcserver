@@ -6,6 +6,7 @@ import (
 	"reflect"
 )
 
+// BigNumberHandler is a wrapper struct for BigNumberCalculator
 type BigNumberHandler struct {
 	calc *bignumcalculator.BigNumberCalculator
 }
@@ -24,6 +25,7 @@ func handleArg(args []interface{}) ([]string, error) {
 	return params, nil
 }
 
+// Create a new named object
 func (t *BigNumberHandler) Create(args []interface{}, reply *string) error {
 	params, err := handleArg(args)
 	if err != nil {
@@ -35,6 +37,7 @@ func (t *BigNumberHandler) Create(args []interface{}, reply *string) error {
 	return nil
 }
 
+// Update a named object
 func (t *BigNumberHandler) Update(args []interface{}, reply *string) error {
 	params, err := handleArg(args)
 	if err != nil {
@@ -46,6 +49,7 @@ func (t *BigNumberHandler) Update(args []interface{}, reply *string) error {
 	return nil
 }
 
+// Delete the named object
 func (t *BigNumberHandler) Delete(args string, reply *string) error {
 	if !t.calc.Delete(args) {
 		return errors.New("Fail")
@@ -53,6 +57,7 @@ func (t *BigNumberHandler) Delete(args string, reply *string) error {
 	return nil
 }
 
+// Add x and y
 func (t *BigNumberHandler) Add(args []interface{}, reply *string) error {
 	params, err := handleArg(args)
 	if err != nil {
@@ -66,6 +71,7 @@ func (t *BigNumberHandler) Add(args []interface{}, reply *string) error {
 	return nil
 }
 
+// Subtract x and y
 func (t *BigNumberHandler) Subtract(args []interface{}, reply *string) error {
 	params, err := handleArg(args)
 	if err != nil {
@@ -79,6 +85,7 @@ func (t *BigNumberHandler) Subtract(args []interface{}, reply *string) error {
 	return nil
 }
 
+// Multiply x and y
 func (t *BigNumberHandler) Multiply(args []interface{}, reply *string) error {
 	params, err := handleArg(args)
 	if err != nil {
@@ -92,6 +99,7 @@ func (t *BigNumberHandler) Multiply(args []interface{}, reply *string) error {
 	return nil
 }
 
+// Division x and y
 func (t *BigNumberHandler) Division(args []interface{}, reply *string) error {
 	params, err := handleArg(args)
 	if err != nil {
@@ -105,6 +113,7 @@ func (t *BigNumberHandler) Division(args []interface{}, reply *string) error {
 	return nil
 }
 
+// CreateBigNumberHandler will return a new struct BigNumberHandler
 func CreateBigNumberHandler() *BigNumberHandler {
 	handler := new(BigNumberHandler)
 	handler.calc = bignumcalculator.New()

@@ -10,13 +10,13 @@ import (
 	"time"
 )
 
-type RPCClient struct {
+type _RPCClient struct {
 	*rpc.Client
 	listener net.Listener
 	isClosed chan bool
 }
 
-func (client *RPCClient) Close(t *testing.T) {
+func (client *_RPCClient) close(t *testing.T) {
 	go func() {
 		go func() {
 			time.Sleep(time.Millisecond * 500)
@@ -26,7 +26,7 @@ func (client *RPCClient) Close(t *testing.T) {
 	}()
 }
 
-func initClient(t *testing.T, address string) *RPCClient {
+func initClient(t *testing.T, address string) *_RPCClient {
 	listener := NewListener("tcp", address)
 	if listener == nil {
 		t.Error("Error Listening")
@@ -38,11 +38,11 @@ func initClient(t *testing.T, address string) *RPCClient {
 		t.Error("Dialing:", err)
 	}
 	c := jsonrpc.NewClient(client)
-	rpcClient := &RPCClient{c, listener, isClosed}
+	rpcClient := &_RPCClient{c, listener, isClosed}
 	return rpcClient
 }
 
-func makeTable(t *testing.T, client *RPCClient) {
+func makeTable(t *testing.T, client *_RPCClient) {
 	numbers := [][]string{
 		{"Zero", "0"},
 		{"One", "1"},
@@ -68,7 +68,7 @@ func makeTable(t *testing.T, client *RPCClient) {
 
 func TestCreate(t *testing.T) {
 	client := initClient(t, ":1234")
-	defer client.Close(t)
+	defer client.close(t)
 	cases := []struct {
 		in  string
 		out bool
@@ -90,7 +90,7 @@ func TestCreate(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	client := initClient(t, ":1230")
-	defer client.Close(t)
+	defer client.close(t)
 	makeTable(t, client)
 	cases := []struct {
 		name, val string
@@ -108,14 +108,14 @@ func TestUpdate(t *testing.T) {
 		}
 	}
 
-	cases_verify := []struct {
+	casesVerify := []struct {
 		x, y, ans string
 	}{
 		{"One", "Two", "30"},
 		{"One", "One", "20"},
 		{"Two", "Two", "40"},
 	}
-	for _, c := range cases_verify {
+	for _, c := range casesVerify {
 		err := client.Call("BigNumber.Add", []string{c.x, c.y}, &reply)
 		if err != nil {
 			t.Errorf("Add (%q %q) Error:%q", c.x, c.y, err)
@@ -130,7 +130,7 @@ func TestUpdate(t *testing.T) {
 
 func TestDelete(t *testing.T) {
 	client := initClient(t, ":1231")
-	defer client.Close(t)
+	defer client.close(t)
 	makeTable(t, client)
 	cases := []struct {
 		name string
@@ -155,9 +155,10 @@ func TestDelete(t *testing.T) {
 		}
 	}
 }
+
 func TestAdd(t *testing.T) {
 	client := initClient(t, ":1235")
-	defer client.Close(t)
+	defer client.close(t)
 	makeTable(t, client)
 
 	cases := []struct {
@@ -185,7 +186,7 @@ func TestAdd(t *testing.T) {
 
 func TestSubtract(t *testing.T) {
 	client := initClient(t, ":1236")
-	defer client.Close(t)
+	defer client.close(t)
 	makeTable(t, client)
 
 	cases := []struct {
@@ -215,7 +216,7 @@ func TestSubtract(t *testing.T) {
 
 func TestMultiply(t *testing.T) {
 	client := initClient(t, ":1237")
-	defer client.Close(t)
+	defer client.close(t)
 	makeTable(t, client)
 
 	cases := []struct {
@@ -246,7 +247,7 @@ func TestMultiply(t *testing.T) {
 
 func TestDivision(t *testing.T) {
 	client := initClient(t, ":1238")
-	defer client.Close(t)
+	defer client.close(t)
 	makeTable(t, client)
 
 	cases := []struct {
