@@ -5,7 +5,10 @@ The server allows creating/updating/deleting named number objects that the serve
 The server also supports basic arithmetic operations on these named number objects: addition, subtraction, multiplication, and division.
 
 ## API Reference
-All of the parameters are strings. And you have to wrap the parameters into an additional array. That is, the JRON-RPC request shuold look like this.
+All of the parameters are strings.
+
+If the number of parameters are two or more, you have to wrap the parameters into an additional array. That is, the JRON-RPC request shuold look like this.
+
 ```
 {
     "jsonrpc":"1.0",
@@ -23,6 +26,27 @@ Create a named number objects
 #### Parameters
 1. `NAME`
 2. `NUMBER`
+
+#### Returns
+none
+
+---
+### BigNumber.Update
+Update a named number objects
+
+#### Parameters
+1. `NAME`
+2. `NUMBER`
+
+#### Returns
+none
+
+---
+### BigNumber.Delete
+Delete a named number objects
+
+#### Parameters
+1. `NAME`
 
 #### Returns
 none
