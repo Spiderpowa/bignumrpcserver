@@ -7,6 +7,7 @@ import (
         "net"
         "net/rpc"
         "net/rpc/jsonrpc"
+        "math/big"
 )
 
 type RPCClient struct {
@@ -91,4 +92,24 @@ func TestAdd(t *testing.T) {
     client := initClient(t, ":1235")
     defer client.Close(t)
     makeTable(t, client)
+
+    cases := []struct {
+        x, y, ans string
+    }{
+        {"One", "One", "2.0"},
+        {"One", "NegOne", "0"},
+        {"One", "LotsOfNine", "1000000000000000000000000000000000000"},
+    }
+    var reply string
+    for _, c := range cases {
+        err := client.Call("BigNumber.Add", []string{c.x, c.y}, &reply)
+        if err != nil {
+            t.Errorf("Add (%q %q) Error:%q", c.x, c.y, err)
+            continue
+        }
+        ans, _ := new(big.Float).SetString(c.ans)
+        if reply != ans.String() {
+            t.Errorf("Add %q %q == %q, expect %q", c.x, c.y, reply, ans.String())
+        }
+    }
 }
