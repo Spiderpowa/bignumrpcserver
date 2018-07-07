@@ -48,6 +48,44 @@ func (t* BigNumberHandler) Add(args []interface{}, reply *string) error {
     return nil
 }
 
+func (t* BigNumberHandler) Substract(args []interface{}, reply *string) error {
+    params, err := handleArg(args)
+    if err != nil {
+        return err
+    }
+    ans, suc := t.calc.Sub(params[0], params[1])
+    if !suc {
+        return errors.New("Fail")
+    }
+    *reply = ans.String()
+    return nil
+}
+
+func (t* BigNumberHandler) Multiply(args []interface{}, reply *string) error {
+    params, err := handleArg(args)
+    if err != nil {
+        return err
+    }
+    ans, suc := t.calc.Mul(params[0], params[1])
+    if !suc {
+        return errors.New("Fail")
+    }
+    *reply = ans.String()
+    return nil
+}
+
+func (t* BigNumberHandler) Division(args []interface{}, reply *string) error {
+    params, err := handleArg(args)
+    if err != nil {
+        return err
+    }
+    ans, suc := t.calc.Div(params[0], params[1])
+    if !suc {
+        return errors.New("Fail")
+    }
+    *reply = ans.String()
+    return nil
+}
 
 func CreateBigNumberHandler() *BigNumberHandler {
     handler := new(BigNumberHandler)
