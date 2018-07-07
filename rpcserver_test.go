@@ -128,6 +128,33 @@ func TestUpdate(t *testing.T) {
     }
 }
 
+func TestDelete(t *testing.T) {
+    client := initClient(t, ":1231")
+    defer client.Close(t)
+    makeTable(t, client)
+    cases := []struct {
+        name string
+        out bool
+    }{
+        {"One", true},
+        {"Two", true},
+        {"NotExists", false},
+    }
+    var reply string
+    for _, c := range cases {
+        out := client.Call("BigNumber.Delete", c.name, &reply) == nil
+        if out != c.out {
+            t.Errorf("Fail to delete (%s) == %t, expect %t\n", c.name, out, c.out)
+        }
+        if !out {
+            continue
+        }
+        suc := client.Call("BigNumber.Update", []string{c.name, "1"}, &reply) != nil
+        if !suc {
+            t.Errorf("Fail to delete (%s), still found in server\n", c.name)
+        }
+    }
+}
 func TestAdd(t *testing.T) {
     client := initClient(t, ":1235")
     defer client.Close(t)
