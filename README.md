@@ -1,5 +1,6 @@
 # Big Number RPC Server
 [![CircleCI](https://circleci.com/gh/Spiderpowa/bignumrpcserver.svg?style=shield&circle-token=9ed65ceb38d8216b07240eacb2e2582a26025765)](https://circleci.com/gh/Spiderpowa/bignumrpcserver)
+[![Coverage Status](https://coveralls.io/repos/github/Spiderpowa/bignumrpcserver/badge.svg)](https://coveralls.io/github/Spiderpowa/bignumrpcserver)
 
 The server allows creating/updating/deleting named number objects that the server manages for clients.
 The server also supports basic arithmetic operations on these named number objects: addition, subtraction, multiplication, and division.
