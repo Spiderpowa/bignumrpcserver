@@ -145,3 +145,65 @@ func TestSubtract(t *testing.T) {
         }
     }
 }
+
+func TestMultiply(t *testing.T) {
+    client := initClient(t, ":1237")
+    defer client.Close(t)
+    makeTable(t, client)
+
+    cases := []struct {
+        x, y, ans string
+    }{
+        {"One", "One", "1"},
+        {"One", "NegOne", "-1"},
+        {"Zero", "One", "0"},
+        {"NegThree", "NegOne", "3"},
+        {"7", "8", "56"},
+        {"Five.One", "10", "51"},
+        {"OneAndLotsOfZero", "One", "100000000000000000000000000000000"},
+        {"OneAndLotsOfZero", "OneAndLotsOfZero", "10000000000000000000000000000000000000000000000000000000000000000"},
+    }
+    var reply string
+    for _, c := range cases {
+        err := client.Call("BigNumber.Multiply", []string{c.x, c.y}, &reply)
+        if err != nil {
+            t.Errorf("Mul (%q %q) Error:%q", c.x, c.y, err)
+            continue
+        }
+        ans, _ := new(big.Float).SetString(c.ans)
+        if reply != ans.String() {
+            t.Errorf("Mul %q %q == %q, expect %q", c.x, c.y, reply, ans.String())
+        }
+    }
+}
+
+func TestDivision(t *testing.T) {
+    client := initClient(t, ":1238")
+    defer client.Close(t)
+    makeTable(t, client)
+
+    cases := []struct {
+        x, y, ans string
+    }{
+        {"One", "One", "1"},
+        {"One", "NegOne", "-1"},
+        {"Zero", "One", "0"},
+        {"NegThree", "NegOne", "3"},
+        {"8", "2", "4"},
+        {"Five.One", "Three", "1.7"},
+        {"OneAndLotsOfZero", "One", "100000000000000000000000000000000"},
+        {"OneAndLotsOfZero", "OneAndLotsOfZero", "1"},
+    }
+    var reply string
+    for _, c := range cases {
+        err := client.Call("BigNumber.Division", []string{c.x, c.y}, &reply)
+        if err != nil {
+            t.Errorf("Div (%q %q) Error:%q", c.x, c.y, err)
+            continue
+        }
+        ans, _ := new(big.Float).SetString(c.ans)
+        if reply != ans.String() {
+            t.Errorf("Div %q %q == %q, expect %q", c.x, c.y, reply, ans.String())
+        }
+    }
+}
