@@ -115,3 +115,33 @@ func TestAdd(t *testing.T) {
         }
     }
 }
+
+func TestSubtract(t *testing.T) {
+    client := initClient(t, ":1236")
+    defer client.Close(t)
+    makeTable(t, client)
+
+    cases := []struct {
+        x, y, ans string
+    }{
+        {"One", "One", "0"},
+        {"One", "NegOne", "2"},
+        {"Zero", "One", "-1"},
+        {"7", "8", "-1"},
+        {"Five.One", "10", "-4.9"},
+        {"OneAndLotsOfZero", "One", "99999999999999999999999999999999"},
+        {"One", "NegLotsOfNine", "100000000000000000000000000000000"},
+    }
+    var reply string
+    for _, c := range cases {
+        err := client.Call("BigNumber.Substract", []string{c.x, c.y}, &reply)
+        if err != nil {
+            t.Errorf("Sub (%q %q) Error:%q", c.x, c.y, err)
+            continue
+        }
+        ans, _ := new(big.Float).SetString(c.ans)
+        if reply != ans.String() {
+            t.Errorf("Sub %q %q == %q, expect %q", c.x, c.y, reply, ans.String())
+        }
+    }
+}
