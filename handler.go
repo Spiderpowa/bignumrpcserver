@@ -35,6 +35,24 @@ func (t* BigNumberHandler) Create(args []interface{}, reply *string) error {
     return nil
 }
 
+func (t* BigNumberHandler) Update(args []interface{}, reply *string) error {
+    params, err := handleArg(args)
+    if err != nil {
+        return err
+    }
+    if !t.calc.Set(params[0], params[1]) {
+        return errors.New("Fail")
+    }
+    return nil
+}
+
+func (t* BigNumberHandler) Delete(args string, reply *string) error {
+    if !t.calc.Delete(args) {
+        return errors.New("Fail")
+    }
+    return nil
+}
+
 func (t* BigNumberHandler) Add(args []interface{}, reply *string) error {
     params, err := handleArg(args)
     if err != nil {
