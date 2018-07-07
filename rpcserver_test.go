@@ -18,7 +18,6 @@ type RPCClient struct {
 func (client *RPCClient) Close(t *testing.T) {
     go func () {
         go func() {
-            t.Log("Waiting for a brief time before closing current server...")
             time.Sleep(time.Millisecond*500)
             client.listener.Close()
         }()
