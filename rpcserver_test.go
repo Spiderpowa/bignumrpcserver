@@ -33,7 +33,7 @@ func initClient(t *testing.T, address string) *RPCClient {
     }
     isClosed := make(chan bool)
     go StartRPCServer(listener, isClosed)
-    client, err := net.Dial("tcp", "localhost:1234")
+    client, err := net.Dial("tcp", address)
     if err != nil {
         t.Error("Dialing:", err)
     }
