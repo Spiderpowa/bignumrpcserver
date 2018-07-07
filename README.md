@@ -14,7 +14,7 @@ If the number of parameters are two or more, you have to wrap the parameters int
     "jsonrpc":"1.0",
     "method":"BigNumber.Create",
     "params":[
-        ["MeaningOfLife", "42"]
+        ["AnswerToLife", "42"]
     ],
     "id":1
 }
