@@ -201,7 +201,7 @@ func TestSubtract(t *testing.T) {
 	}
 	var reply string
 	for _, c := range cases {
-		err := client.Call("BigNumber.Substract", []string{c.x, c.y}, &reply)
+		err := client.Call("BigNumber.Subtract", []string{c.x, c.y}, &reply)
 		if err != nil {
 			t.Errorf("Sub (%q %q) Error:%q", c.x, c.y, err)
 			continue

@@ -66,7 +66,7 @@ func (t *BigNumberHandler) Add(args []interface{}, reply *string) error {
 	return nil
 }
 
-func (t *BigNumberHandler) Substract(args []interface{}, reply *string) error {
+func (t *BigNumberHandler) Subtract(args []interface{}, reply *string) error {
 	params, err := handleArg(args)
 	if err != nil {
 		return err
