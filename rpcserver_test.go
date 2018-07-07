@@ -54,8 +54,8 @@ func makeTable(t *testing.T, client *RPCClient)  {
         {"Five.One", "5.1"},
         {"PI", "3.14"},
         {"OneAndLotsOfZero", "100000000000000000000000000000000"},
-        {"LotsOfNine", "999999999999999999999999999999999999"},
-        {"NegLotsOfNine", "-999999999999999999999999999999999999"},
+        {"LotsOfNine", "99999999999999999999999999999999"},
+        {"NegLotsOfNine", "-99999999999999999999999999999999"},
     }
     var reply string
     for _, n := range numbers {
@@ -100,7 +100,7 @@ func TestAdd(t *testing.T) {
         {"One", "NegOne", "0"},
         {"7", "8", "15"},
         {"Five.One", "10", "15.1"},
-        {"One", "LotsOfNine", "1000000000000000000000000000000000000"},
+        {"One", "LotsOfNine", "100000000000000000000000000000000"},
     }
     var reply string
     for _, c := range cases {
