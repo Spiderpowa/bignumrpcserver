@@ -88,6 +88,46 @@ func TestCreate(t *testing.T) {
     }
 }
 
+func TestUpdate(t *testing.T) {
+    client := initClient(t, ":1230")
+    defer client.Close(t)
+    makeTable(t, client)
+    cases := []struct {
+        name, val string
+        out bool
+    }{
+        {"One", "10", true},
+        {"Two", "20", true},
+        {"NotExists", "5", false},
+    }
+    var reply string
+    for _, c := range cases {
+        out := client.Call("BigNumber.Update", []string{c.name, c.val}, &reply) == nil
+        if out != c.out {
+            t.Errorf("Fail to update (%s) == %t, expect %t\n", c.name, out, c.out)
+        }
+    }
+
+    cases_verify := []struct {
+        x, y, ans string
+    }{
+        {"One", "Two", "30"},
+        {"One", "One", "20"},
+        {"Two", "Two", "40"},
+    }
+    for _, c := range cases_verify {
+        err := client.Call("BigNumber.Add", []string{c.x, c.y}, &reply)
+        if err != nil {
+            t.Errorf("Add (%q %q) Error:%q", c.x, c.y, err)
+            continue
+        }
+        ans, _ := new(big.Float).SetString(c.ans)
+        if reply != ans.String() {
+            t.Errorf("Update-Add %q %q == %q, expect %q", c.x, c.y, reply, ans.String())
+        }
+    }
+}
+
 func TestAdd(t *testing.T) {
     client := initClient(t, ":1235")
     defer client.Close(t)
