@@ -7,7 +7,7 @@ The server also supports basic arithmetic operations on these named number objec
 ## API Reference
 All of the parameters are strings.
 
-If the number of parameters are two or more, you have to wrap the parameters into an additional array. That is, the JRON-RPC request shuold look like this.
+If the number of parameters are two or more, you have to wrap the parameters into an additional array. That is, the JSON-RPC request shuold look like this.
 
 ```
 {
