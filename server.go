@@ -12,7 +12,7 @@ import (
 func NewListener(network, address string) net.Listener {
 	listener, e := net.Listen(network, address)
 	if e != nil {
-		log.Fatal("listen error:", e)
+		log.Println("listen error:", e)
 		return nil
 	}
 
@@ -33,7 +33,8 @@ func StartRPCServer(listener net.Listener, isClosed chan bool) {
 			default:
 				break
 			}
-			log.Fatal("accept error: " + err.Error())
+			log.Println("accept error: " + err.Error())
+			break
 		} else {
 			log.Printf("new connection established\n")
 			go server.ServeCodec(jsonrpc.NewServerCodec(conn))
