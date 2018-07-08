@@ -138,3 +138,25 @@ func TestDiv(t *testing.T) {
 		}
 	}
 }
+
+type calcOp func(string, string) (big.Float, bool)
+
+func TestCalculateError(t *testing.T) {
+	calc := New()
+	cases := []struct {
+		method calcOp
+		x, y   string
+	}{
+		{calc.Add, "A", "B"},
+		{calc.Sub, "A", "B"},
+		{calc.Mul, "A", "B"},
+		{calc.Div, "A", "B"},
+	}
+	for _, c := range cases {
+		_, suc := c.method(c.x, c.y)
+		if suc {
+			t.Errorf("Expect error")
+			continue
+		}
+	}
+}
