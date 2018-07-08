@@ -286,6 +286,7 @@ func TestHandlerError(t *testing.T) {
 		{"BigNumber.Create", []interface{}{"1", 1}},
 		{"BigNumber.Create", []interface{}{"1", "NOT_A_NUMBER"}},
 		{"BigNumber.Create", []interface{}{"1", "2", "3"}},
+		{"BigNumber.Update", []interface{}{"1", "2", "3"}},
 		{"BigNumber.Add", []interface{}{"A", "B"}},
 		{"BigNumber.Add", []interface{}{"A", "B", "C"}},
 		{"BigNumber.Subtract", []interface{}{"A", "B"}},
