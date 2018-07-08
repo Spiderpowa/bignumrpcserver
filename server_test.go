@@ -28,8 +28,7 @@ func TestStartRPCServer(t *testing.T) {
 	isClosed <- true
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
-	go StartRPCServer(listener, nil)
-	time.Sleep(time.Millisecond * 300)
+	StartRPCServer(listener, nil)
 	if !strings.Contains(buf.String(), "accept error") {
 		t.Errorf("Expect to have 'accept error', but get %s\n", buf.String())
 	}
