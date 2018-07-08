@@ -287,9 +287,13 @@ func TestHandlerError(t *testing.T) {
 		{"BigNumber.Create", []interface{}{"1", "NOT_A_NUMBER"}},
 		{"BigNumber.Create", []interface{}{"1", "2", "3"}},
 		{"BigNumber.Add", []interface{}{"A", "B"}},
+		{"BigNumber.Add", []interface{}{"A", "B", "C"}},
 		{"BigNumber.Subtract", []interface{}{"A", "B"}},
+		{"BigNumber.Subtract", []interface{}{"A", "B", "C"}},
 		{"BigNumber.Multiply", []interface{}{"A", "B"}},
-		{"BigNumber.Divivision", []interface{}{"A", "B"}},
+		{"BigNumber.Multiply", []interface{}{"A", "B", "C"}},
+		{"BigNumber.Division", []interface{}{"A", "B"}},
+		{"BigNumber.Division", []interface{}{"A", "B", "C"}},
 	}
 	var reply string
 	for _, c := range cases {
