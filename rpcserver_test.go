@@ -275,3 +275,28 @@ func TestDivision(t *testing.T) {
 		}
 	}
 }
+
+func TestHandlerError(t *testing.T) {
+	client := initClient(t, ":1337")
+	defer client.close(t)
+	cases := []struct {
+		method string
+		params []interface{}
+	}{
+		{"BigNumber.Create", []interface{}{"1", 1}},
+		{"BigNumber.Create", []interface{}{"1", "NOT_A_NUMBER"}},
+		{"BigNumber.Create", []interface{}{"1", "2", "3"}},
+		{"BigNumber.Add", []interface{}{"A", "B"}},
+		{"BigNumber.Subtract", []interface{}{"A", "B"}},
+		{"BigNumber.Multiply", []interface{}{"A", "B"}},
+		{"BigNumber.Divivision", []interface{}{"A", "B"}},
+	}
+	var reply string
+	for _, c := range cases {
+		err := client.Call(c.method, c.params, &reply)
+		if err == nil {
+			t.Errorf("Expect error")
+			continue
+		}
+	}
+}
